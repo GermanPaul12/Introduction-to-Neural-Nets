@@ -44,9 +44,19 @@ def get_trained_mnist_model(epochs=10, batch_size=32, optimizer='adam', loss='ms
 def plot_accuracy_by_total_epochs(trained_models):
     # Sort the models by the number of epochs they were trained for
     trained_models.sort(key=lambda x: len(x.history.history["loss"]))
-    
-    plt.plot([len(model.history.history["val_accuracy"]) for model in trained_models], [model.history.history['val_accuracy'][-1]
+
+    plt.plot([len(model.history.history["accuracy"]) for model in trained_models], [model.history.history['accuracy'][-1]
              for model in trained_models])
     plt.xlabel('Total number of epochs')
+    plt.ylabel('Accuracy of model')
+    plt.show()
+
+
+def plot_accuracy_by_batch_size(trained_models, batch_sizes):
+    for model, batch_size in zip(trained_models, batch_sizes):
+        plt.plot(range(1, len(model.history.history['loss'])+1),
+                 model.history.history['accuracy'], label=f"Batch size: {batch_size}")
+    plt.legend(loc="lower right")
+    plt.xlabel('Epoch')
     plt.ylabel('Accuracy of model')
     plt.show()
