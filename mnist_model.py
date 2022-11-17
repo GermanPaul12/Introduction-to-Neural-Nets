@@ -60,3 +60,13 @@ def plot_accuracy_by_batch_size(trained_models, batch_sizes):
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy of model')
     plt.show()
+
+
+def plot_loss_by_learning_rate(trained_models, learning_rates):
+    for model, learning_rate in zip(trained_models, learning_rates):
+        plt.plot(range(1, len(model.history.history['loss'])+1),
+                 model.history.history['loss'], label=f"Learning Rate: {learning_rate}")
+    plt.legend(loc="upper left")
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss of model')
+    plt.show()
