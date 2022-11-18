@@ -4,7 +4,27 @@ import matplotlib.pyplot as plt
 # Returns a compiled and trained model with the given hyper parameters
 
 
+def get_compiled_model(optimizer='adam', loss='mse', metrics=['accuracy']):
+    # Create model
+    model = keras.models.Sequential([
+        keras.layers.Flatten(input_shape=(28, 28)),
+        keras.layers.Dense(128, activation='relu'),
+        keras.layers.Dense(10, activation='softmax')
+    ])
+
+    # Compile model
+    model.compile(
+        optimizer=optimizer,
+        loss=loss,
+        metrics=metrics
+    )
+
+    # Return *compiled* model
+    return model
+
+
 def get_trained_mnist_model(epochs=10, batch_size=32, optimizer='adam', loss='mse', metrics=['accuracy'], y_one_hot_encode=True):
+
     # Load MNIST data
     (X_train, y_train), (X_test,  y_test) = keras.datasets.mnist.load_data()
 
@@ -17,19 +37,8 @@ def get_trained_mnist_model(epochs=10, batch_size=32, optimizer='adam', loss='ms
         y_train = keras.utils.to_categorical(y_train)
         y_test = keras.utils.to_categorical(y_test)
 
-    # Create model
-    model = keras.models.Sequential([
-        keras.layers.Flatten(input_shape=(28, 28)),
-        keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(10, activation='sigmoid')
-    ])
-
-    # Compile model
-    model.compile(
-        optimizer=optimizer,
-        loss=loss,
-        metrics=metrics
-    )
+    model = get_compiled_model(
+        optimizer=optimizer, loss=loss, metrics=metrics, y_one_hot_encode=True)
 
     # Train model
     model.fit(X_train, y_train, epochs=epochs,
