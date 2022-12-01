@@ -38,7 +38,7 @@ def get_trained_mnist_model(epochs=10, batch_size=32, optimizer='adam', loss='ms
         y_test = keras.utils.to_categorical(y_test)
 
     model = get_compiled_model(
-        optimizer=optimizer, loss=loss, metrics=metrics, y_one_hot_encode=True)
+        optimizer=optimizer, loss=loss, metrics=metrics)
 
     # Train model
     model.fit(X_train, y_train, epochs=epochs,
